@@ -50,8 +50,9 @@ func terraformInit(dir string) {
 		_, _ = commons.GREEN.Println(" Done!")
 
 	} else {
-		_, _ = commons.YELLOW.Println("Folder already initialized..")
-		_, _ = commons.YELLOW.Println("You may use `terrap init -u` to upgrade your context.")
+		// Note: changed exit message to be more actionable and mention the -u flag clearly
+		_, _ = commons.YELLOW.Println("Folder already initialized.")
+		_, _ = commons.YELLOW.Println("Run `terrap init -u` to upgrade your context, or `terrap init -d <dir>` for a different directory.")
 		os.Exit(0)
 
 	}
@@ -106,25 +107,4 @@ var initCmd = &cobra.Command{
 
 		} else {
 			location, err := os.Getwd() // get current directory
-			if err != nil {
-				_, _ = commons.RED.Print(emoji.AngryFace, "Failed with the following error: ")
-				fmt.Println(err.Error())
-				os.Exit(1)
-			}
-			mainWorkspace.Location = location
-			terraformInit(mainWorkspace.Location)
-
-			fmt.Println()
-			_, _ = commons.SIRREND.Println(emoji.BeerMug, "Terrap Initialized Successfully!")
-		}
-	},
-}
-
-/*
-@brief: init adds the command to the root command (terrap)
-*/
-func init() {
-	rootCmd.AddCommand(initCmd)
-	initCmd.Flags().StringP("directory", "d", "", "initialize a given directory")
-	initCmd.Flags().BoolP("upgrade", "u", false, "Upgrade the given directory workspace")
-}
+			if err != nil
