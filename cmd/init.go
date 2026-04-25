@@ -50,9 +50,10 @@ func terraformInit(dir string) {
 		_, _ = commons.GREEN.Println(" Done!")
 
 	} else {
-		// Note: changed exit message to be more actionable and mention the -u flag clearly
+		// Already initialized - remind user about available flags to avoid confusion
 		_, _ = commons.YELLOW.Println("Folder already initialized.")
-		_, _ = commons.YELLOW.Println("Run `terrap init -u` to upgrade your context, or `terrap init -d <dir>` for a different directory.")
+		_, _ = commons.YELLOW.Println("  - Use `terrap init -u` to re-initialize and upgrade your context.")
+		_, _ = commons.YELLOW.Println("  - Use `terrap init -d <dir>` to initialize a different directory.")
 		os.Exit(0)
 
 	}
@@ -101,10 +102,4 @@ var initCmd = &cobra.Command{
 				_, _ = commons.SIRREND.Println("\nTerrap Initialized Successfully!")
 
 			} else {
-				_, _ = commons.YELLOW.Println("The given path is not a directory")
-				os.Exit(0)
-			}
-
-		} else {
-			location, err := os.Getwd() // get current directory
-			if err != nil
+				_, _ = commons.YELLOW.Println("The given 
