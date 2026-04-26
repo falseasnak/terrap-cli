@@ -54,6 +54,7 @@ func terraformInit(dir string) {
 		_, _ = commons.YELLOW.Println("Folder already initialized.")
 		_, _ = commons.YELLOW.Println("  - Use `terrap init -u` to re-initialize and upgrade your context.")
 		_, _ = commons.YELLOW.Println("  - Use `terrap init -d <dir>` to initialize a different directory.")
+		// Note: exit with code 0 here since this is not an error condition, just an informational message
 		os.Exit(0)
 
 	}
@@ -74,7 +75,7 @@ func saveInitData() {
 var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Initialize directory",
-	Long:  `Initialize directory for sirrend to have all needed files`,
+	Long:  `Initialize directory for terrap to have all needed files`,
 
 	Run: //check which flags are set and run the appropriate init
 	func(cmd *cobra.Command, args []string) {
@@ -100,6 +101,16 @@ var initCmd = &cobra.Command{
 				mainWorkspace.Location = directory
 				terraformInit(directory)
 				_, _ = commons.SIRREND.Println("\nTerrap Initialized Successfully!")
-
 			} else {
-				_, _ = commons.YELLOW.Println("The given 
+				_, _ = commons.RED.Println("The provided path is not a valid directory.")
+				os.Exit(1)
+			}
+		} else {
+			// Default: initialize current working directory
+			directory, _ := os.Getwd()
+			mainWorkspace.Location = directory
+			terraformInit(directory)
+			_, _ = commons.SIRREND.Println("\nTerrap Initialized Successfully!")
+		}
+	},
+}
